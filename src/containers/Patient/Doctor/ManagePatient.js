@@ -5,26 +5,35 @@ import './ManagePatient.scss';
 import DatePicker from '../../../components/Input/DatePicker';
 import { getAllPatientForDoctor } from "../../../services/userService"
 import moment from "moment";
+import { LANGUAGES } from '../../../utils';
+
 class ManagePatient extends Component {
     constructor(props) {
         super(props);
         this.state = {
             currentDate: moment(new Date()).startOf('day').valueOf(),
+            dataPatient: {}
         }
     }
 
     async componentDidMount() {
         let { user } = this.props;
         let { currentDate } = this.state;
-        console.log('>>> anh pham check state currentDate', this.state)
-
         let formatedDate = new Date(currentDate).getTime();
+        this.getDataPatient(user, formatedDate)
+
+    }
+
+    getDataPatient = async (user, formatedDate) => {
         let res = await getAllPatientForDoctor({
             doctorId: user.id,
             date: formatedDate
         })
-
-        console.log('anh pham check res MP', res)
+        if (res && res.errCode === 0) {
+            this.setState({
+                dataPatient: res.data
+            })
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -34,11 +43,32 @@ class ManagePatient extends Component {
     handleOnChangeDatePicker = (date) => {
         this.setState({
             currentDate: date[0]
+        }, () => {
+            let { user } = this.props;
+            let { currentDate } = this.state;
+            let formatedDate = new Date(currentDate).getTime();
+            this.getDataPatient(user, formatedDate)
+
         })
+    }
+    handleBtnConfirm = (item) => {
+        // console.log('anh  check item button', item)
+        let data = {
+            doctorId: item.doctorId,
+            patientId: item.patientId,
+            email: item.patientData.email
+        }
+        // console.log('anh pham check data', data)
+    }
+    handleBtnRemedy = () => {
+
     }
 
     render() {
         console.log('>>>> anh pham check props MP', this.props)
+        console.log('>>>> anh pham check state MP', this.state)
+        let { dataPatient } = this.state;
+        let { language } = this.props;
         return (
             <div className='manage-patient-container'>
                 <div className='m-p-title'>
@@ -58,17 +88,55 @@ class ManagePatient extends Component {
                             <tbody>
                                 <tr>
                                     <th>
-                                        Name
+                                        STT
                                     </th>
-                                    <th colspan="2">
-                                        Telephone
+                                    <th>
+                                        Thời gian
                                     </th>
+                                    <th>
+                                        Họ và tên
+                                    </th>
+                                    <th>
+                                        Địa chỉ
+                                    </th>
+                                    <th>
+                                        Giới tính
+                                    </th>
+                                    {/* <th>
+                                        Actions
+                                    </th> */}
                                 </tr>
-                                <tr>
-                                    <td>Bill</td>
-                                    <td>423432</td>
-                                    <td>4324324</td>
-                                </tr>
+                                {dataPatient && dataPatient.length > 0 ?
+                                    dataPatient.map((item, index) => {
+                                        let time = language === LANGUAGES.VI ? item.timeTypeDataPatient.ValueVi :
+                                            item.timeTypeDataPatient.valueEn;
+                                        let gender = language === LANGUAGES.VI ? item.patientData.genderData.ValueVi :
+                                            item.patientData.genderData.valueEn;
+
+                                        return (
+                                            <tr key={index}>
+                                                <td>{index + 1}</td>
+                                                <td>{time}</td>
+                                                <td>{item.patientData.firstName}</td>
+                                                <td>{item.patientData.address}</td>
+                                                <td>{gender}</td>
+                                                {/* <td>
+                                                    <button className='mp-btn-confirm'
+                                                        onClick={() => this.handleBtnConfirm(item)}
+                                                    >Xác nhận</button>
+                                                    <button className='mp-btn-remedy'
+                                                        onClick={() => this.handleBtnRemedy()}
+                                                    >Gửi hóa đơn</button>
+                                                </td> */}
+                                            </tr>
+                                        )
+                                    })
+                                    :
+                                    <tr>
+                                        Không có dữ liệu
+                                    </tr>
+                                }
+
                             </tbody>
                         </table>
                     </div>

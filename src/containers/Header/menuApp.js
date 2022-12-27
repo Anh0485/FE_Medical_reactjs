@@ -52,10 +52,10 @@ export const adminMenu = [
             },
         ]
     },
-    // quản lý kế hoạch khám bệnh của bác sĩ 
-    {
-        name: 'menu.doctor.manage-schedule', link: '/doctor/manage-schedule'
-    },
+    // // quản lý kế hoạch khám bệnh của bác sĩ 
+    // {
+    //     name: 'menu.doctor.manage-schedule', link: '/doctor/manage-schedule'
+    // },
 ];
 
 export const doctorMenu = [

@@ -1,3 +1,4 @@
+@import "../../styles/breakpoint.scss"; 
 .home-header-container {
     height: 60px;
 
@@ -14,6 +15,20 @@
         display: flex;
         padding: 0 40px;
 
+        @include media(">tablet", "<desktop") {
+            // background-color: #a3c3d9;
+            .home-header-content{
+                padding: 0 20px;
+            }
+        }
+
+
+        @include media(">425px", "<=tablet") {
+            // background-color: #49bce2;
+            .home-header-content{
+                padding: 0 20px;
+            }
+        }
 
 
         .left-content {
@@ -21,6 +36,27 @@
 
             display: flex;
             align-items: center;
+
+            @include media(">tablet", "<desktop") {
+                // background-color: #a3c3d9;
+                .header-logo{
+                    margin-left: -30px !important;
+                    width: 130%!important;
+                }
+            }
+
+            @include media(">425px", "<=tablet") {
+                // background-color: #a3c3d9;
+                i{
+                    // margin-left: 20px;
+                }
+                .header-logo{
+                    margin-left: -30px !important;
+                    width: 130%!important;
+                }
+            }
+        }
+    
 
             .header-logo {
                 margin-left: -45px;
@@ -46,14 +82,30 @@
             justify-content: space-between;
             align-items: center;
 
+            @include media(">tablet", "<desktop") {
+                // background-color: #a3c3d9;
+               .child-content{
+                display: none;
+               }
+            }
+            
+            @include media(">425px", "<=tablet") {
+                background-color: #ae76a6;
+                .child-content{
+                    display: none;
+                   }
+              }
+            
+        
             .child-content {
                 .subs-title {
                     font-weight: 400;
                     font-size: 12px;
                 }
             }
-
         }
+
+    
 
         .right-content {
             width: 25%;
@@ -65,7 +117,7 @@
 
 
             .support {
-                padding-right: 50px;
+                padding-right: 40px;
                 display: flex;
                 align-items: center;
                 cursor: pointer;
@@ -115,7 +167,7 @@
             }
         }
     }
-}
+
 
 
 .home-header-banner {

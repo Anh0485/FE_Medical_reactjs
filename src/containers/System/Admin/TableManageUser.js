@@ -57,6 +57,7 @@ class TableManageUser extends Component {
                 <table style={{ width: '100%' }}>
                     <tbody id="TableManageUser">
                         <tr>
+                            <th>STT</th>
                             <th>Email</th>
                             <th>First Name</th>
                             <th>Last Name </th>
@@ -69,6 +70,7 @@ class TableManageUser extends Component {
 
                                 return (
                                     <tr key={index}>
+                                        <td>{index + 1}</td>
                                         <td>{item.email}</td>
                                         <td>{item.firstName}</td>
                                         <td>{item.lastName}</td>
